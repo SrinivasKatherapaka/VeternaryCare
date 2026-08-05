@@ -2,7 +2,7 @@ import PDFDocument from 'pdfkit';
 import { mockDb } from './mockDb.js';
 import crypto from 'crypto';
 
-export function generateAuditPackPDFStream(): PDFKit.PDFDocument {
+export function generateAuditPackPDFStream(): InstanceType<typeof PDFDocument> {
   const doc = new PDFDocument({ margin: 40, size: 'A4' });
 
   const tenant = mockDb.tenants[0];
