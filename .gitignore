@@ -1,0 +1,68 @@
+# ============================================================================
+# Git Ignore Rules - Veterinary Care Compliance Workspace
+# ============================================================================
+
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Build and Compilation Outputs
+dist/
+backend/dist/
+frontend/dist/
+build/
+*.tsbuildinfo
+
+# Environment Variables and Credentials
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Uploads & Temporary Storage
+uploads/
+backend/uploads/
+scratch/
+tmp/
+*.tmp
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editor Configurations
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# Diagnostic and Coverage Reports
+coverage/
+.nyc_output/
+
+# Supabase Local Settings
+.supabase/
