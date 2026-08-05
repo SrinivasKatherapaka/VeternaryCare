@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, Lock, UserCheck, ArrowRight } from 'lucide-react';
+import { PuppyPawLogo } from '../components/PuppyPawLogo';
+import { Lock, UserCheck, ArrowRight } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -37,14 +38,8 @@ export const LoginPage: React.FC = () => {
       <div className="absolute w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl -bottom-40 -right-40 pointer-events-none"></div>
 
       <div className="max-w-md w-full glass-panel rounded-2xl p-8 border border-slate-800 bg-slate-900/80 shadow-2xl z-10">
-        <div className="flex items-center space-x-3 justify-center mb-6">
-          <div className="p-3 bg-cyan-950/80 border border-cyan-700/50 rounded-xl">
-            <ShieldCheck className="w-8 h-8 text-cyan-400" />
-          </div>
-          <div>
-            <h1 className="text-xl font-extrabold text-white">VET-COMPLIANCE AI</h1>
-            <p className="text-xs text-slate-400 font-mono">Multi-Tenant Evidence Workspace</p>
-          </div>
+        <div className="flex items-center justify-center mb-6">
+          <PuppyPawLogo size="lg" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

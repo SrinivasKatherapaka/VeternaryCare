@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { UserRole } from '../types';
-import { ShieldCheck, Bell, Building2, User, ChevronDown, LogOut } from 'lucide-react';
+import { PuppyPawLogo } from './PuppyPawLogo';
+import { Bell, Building2, User, ChevronDown, LogOut, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
@@ -21,12 +22,7 @@ export const Navbar: React.FC = () => {
     <header className="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-30">
       {/* Brand & Tenant Indicator */}
       <div className="flex items-center space-x-4">
-        <div className="flex items-center space-x-2 text-cyan-400 font-extrabold text-lg tracking-tight">
-          <ShieldCheck className="w-7 h-7 text-cyan-400" />
-          <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
-            VET-COMPLIANCE AI
-          </span>
-        </div>
+        <PuppyPawLogo size="md" />
         <div className="hidden md:flex items-center space-x-2 px-3 py-1 bg-slate-800/80 rounded-full border border-slate-700/60 text-xs text-slate-300">
           <Building2 className="w-3.5 h-3.5 text-cyan-400" />
           <span className="font-semibold text-white">{tenant?.name || 'Apex Veterinary Emergency'}</span>
