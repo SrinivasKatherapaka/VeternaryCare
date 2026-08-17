@@ -1,31 +1,29 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/authMiddleware.js';
-import { mockDb } from '../services/mockDb.js';
+import { db } from '../services/dbService.js';
 
-export function getUsers(req: AuthRequest, res: Response) {
-  const users = mockDb.users.map(u => ({
-    id: u.id,
-    email: u.email,
-    full_name: u.full_name,
-    role: u.role,
-    is_active: u.is_active,
-    last_login_at: u.last_login_at
-  }));
-
-  return res.json({ success: true, users });
+export async function getUsers(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const users = await db.getAllUsers(tenantId);
+    return res.json({ success: true, users });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }
 
-export function updateUserRole(req: AuthRequest, res: Response) {
-  const { id } = req.params;
-  const { role, is_active } = req.body;
+export async function updateUserRole(req: AuthRequest, res: Response) {
+  try {
+    const { id } = req.params;
+    const { role } = req.body;
 
-  const user = mockDb.users.find(u => u.id === id);
-  if (!user) {
-    return res.status(404).json({ success: false, error: 'User not found' });
+    if (!role) {
+      return res.status(400).json({ success: false, error: 'Role is required' });
+    }
+
+    const updated = await db.updateUserRole(id, role);
+    return res.json({ success: true, user: updated });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
   }
-
-  if (role) user.role = role;
-  if (is_active !== undefined) user.is_active = is_active;
-
-  return res.json({ success: true, user });
 }

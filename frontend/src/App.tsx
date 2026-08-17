@@ -7,6 +7,7 @@ import { Sidebar } from './components/Sidebar';
 
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { ClinicalOperationsPage } from './pages/ClinicalOperationsPage';
 import { ControlsPage } from './pages/ControlsPage';
 import { RisksIssuesPage } from './pages/RisksIssuesPage';
 import { DecisionHistoryPage } from './pages/DecisionHistoryPage';
@@ -42,6 +43,7 @@ export const App: React.FC = () => {
           {/* Protected Routes inside Main Layout */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<ProtectedRoute><MainLayout><DashboardPage /></MainLayout></ProtectedRoute>} />
+          <Route path="/clinical" element={<ProtectedRoute><MainLayout><ClinicalOperationsPage /></MainLayout></ProtectedRoute>} />
           <Route path="/controls" element={<ProtectedRoute><MainLayout><ControlsPage /></MainLayout></ProtectedRoute>} />
           <Route path="/risks-issues" element={<ProtectedRoute><MainLayout><RisksIssuesPage /></MainLayout></ProtectedRoute>} />
           <Route path="/decision-history" element={<ProtectedRoute><MainLayout><DecisionHistoryPage /></MainLayout></ProtectedRoute>} />

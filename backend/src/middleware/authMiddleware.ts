@@ -7,7 +7,9 @@ export interface AuthenticatedUser {
   tenant_id: string;
   email: string;
   full_name: string;
+  title?: string;
   role: UserRole;
+  license_number?: string;
 }
 
 export interface AuthRequest extends Request {

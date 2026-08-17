@@ -1,54 +1,75 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/authMiddleware.js';
-import { mockDb } from '../services/mockDb.js';
+import { db } from '../services/dbService.js';
 
-export function getDashboardMetrics(req: AuthRequest, res: Response) {
-  const controls = mockDb.controls;
-  const risks = mockDb.risks;
-  const evidence = mockDb.evidence;
+export async function getDashboardMetrics(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const controls = await db.getControls(tenantId);
+    const risks = await db.getRisks(tenantId);
+    const evidence = await db.getEvidenceList(tenantId);
+    const auditLogs = await db.getAuditDecisions(tenantId);
+    const encounters = await db.getClinicalEncounters(tenantId);
 
-  const totalControls = controls.length;
-  const compliantControls = controls.filter(c => c.status === 'COMPLIANT').length;
-  const nonCompliantControls = controls.filter(c => c.status === 'NON_COMPLIANT').length;
-  const partiallyCompliant = controls.filter(c => c.status === 'PARTIALLY_COMPLIANT').length;
-  const underReview = controls.filter(c => c.status === 'UNDER_REVIEW').length;
-  const untested = controls.filter(c => c.status === 'UNTESTED').length;
+    const totalControls = controls.length;
+    const compliantControls = controls.filter(c => c.status === 'COMPLIANT').length;
+    const nonCompliantControls = controls.filter(c => c.status === 'NON_COMPLIANT').length;
+    const partiallyCompliant = controls.filter(c => c.status === 'PARTIALLY_COMPLIANT').length;
+    const underReview = controls.filter(c => c.status === 'UNDER_REVIEW').length;
+    const untested = controls.filter(c => c.status === 'UNTESTED').length;
 
-  const overallComplianceRate = totalControls > 0 ? Math.round((compliantControls / totalControls) * 100) : 0;
+    const overallComplianceRate = totalControls > 0 ? Math.round((compliantControls / totalControls) * 100) : 0;
 
-  const activeRisks = risks.filter(r => !r.is_resolved);
-  const criticalRisks = activeRisks.filter(r => r.severity === 'CRITICAL').length;
-  const highRisks = activeRisks.filter(r => r.severity === 'HIGH').length;
+    const activeRisks = risks.filter(r => !r.is_resolved);
+    const criticalRisks = activeRisks.filter(r => r.severity === 'CRITICAL').length;
+    const highRisks = activeRisks.filter(r => r.severity === 'HIGH').length;
 
-  const pendingEvidenceReviews = evidence.filter(e => !e.is_reviewed).length;
-  const lowConfidenceExtractions = evidence.filter(e => e.ai_confidence < 0.60).length;
+    const pendingEvidenceReviews = evidence.filter(e => !e.is_reviewed).length;
+    const lowConfidenceExtractions = evidence.filter(e => Number(e.ai_confidence) < 0.60).length;
 
-  const domainBreakdown = [
-    { domain: 'Controlled Substances (DEA)', controls: 2, compliant: 0, complianceRate: 0, risk: 'HIGH' },
-    { domain: 'Surgical & Anesthesia Consent (AAHA)', controls: 2, compliant: 2, complianceRate: 100, risk: 'LOW' },
-    { domain: 'Pharmacy & VCPR Compliance', controls: 2, compliant: 1, complianceRate: 50, risk: 'MEDIUM' },
-    { domain: 'Rabies & Zoonotic Health (OSHA)', controls: 1, compliant: 1, complianceRate: 100, risk: 'LOW' },
-    { domain: 'Financial Billing Reconciliation', controls: 1, compliant: 0, complianceRate: 0, risk: 'CRITICAL' }
-  ];
+    // Group controls by regulatory domain
+    const domainMap: Record<string, { total: number; compliant: number; riskRating: string }> = {};
+    controls.forEach(c => {
+      const domain = c.regulatory_body || 'General Hospital Mandate';
+      if (!domainMap[domain]) {
+        domainMap[domain] = { total: 0, compliant: 0, riskRating: c.risk_rating };
+      }
+      domainMap[domain].total += 1;
+      if (c.status === 'COMPLIANT') domainMap[domain].compliant += 1;
+    });
 
-  return res.json({
-    success: true,
-    metrics: {
-      overallComplianceRate,
-      totalControls,
-      compliantControls,
-      nonCompliantControls,
-      partiallyCompliant,
-      underReview,
-      untested,
-      totalActiveRisks: activeRisks.length,
-      criticalRisks,
-      highRisks,
-      pendingEvidenceReviews,
-      lowConfidenceExtractions
-    },
-    domainBreakdown,
-    recentAudits: mockDb.auditLogs.slice(0, 5),
-    topRisks: activeRisks.slice(0, 4)
-  });
+    const domainBreakdown = Object.entries(domainMap).map(([domain, data]) => ({
+      domain,
+      controls: data.total,
+      compliant: data.compliant,
+      complianceRate: data.total > 0 ? Math.round((data.compliant / data.total) * 100) : 0,
+      risk: data.riskRating
+    }));
+
+    return res.json({
+      success: true,
+      metrics: {
+        overallComplianceRate,
+        totalControls,
+        compliantControls,
+        nonCompliantControls,
+        partiallyCompliant,
+        underReview,
+        untested,
+        totalActiveRisks: activeRisks.length,
+        criticalRisks,
+        highRisks,
+        pendingEvidenceReviews,
+        lowConfidenceExtractions,
+        totalClinicalEncounters: encounters.length,
+        totalEvidenceArtifacts: evidence.length,
+        totalDecisionLogs: auditLogs.length
+      },
+      domainBreakdown,
+      recentAudits: auditLogs.slice(0, 5),
+      topRisks: activeRisks.slice(0, 4)
+    });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }

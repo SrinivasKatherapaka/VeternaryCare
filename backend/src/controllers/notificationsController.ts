@@ -1,16 +1,36 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/authMiddleware.js';
-import { mockDb } from '../services/mockDb.js';
+import { db } from '../services/dbService.js';
 
-export function getNotifications(req: AuthRequest, res: Response) {
-  return res.json({ success: true, notifications: mockDb.notifications });
+export async function getNotifications(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const notifications = await db.getNotifications(tenantId);
+    return res.json({ success: true, notifications });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }
 
-export function markNotificationRead(req: AuthRequest, res: Response) {
-  const { id } = req.params;
-  const notif = mockDb.notifications.find(n => n.id === id);
-  if (notif) {
-    notif.is_read = true;
+export async function markNotificationRead(req: AuthRequest, res: Response) {
+  try {
+    const { id } = req.params;
+    const updated = await db.markNotificationRead(id);
+    return res.json({ success: true, notification: updated });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
   }
-  return res.json({ success: true, notification: notif });
+}
+
+export async function createNotification(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const newNotification = await db.createNotification({
+      ...req.body,
+      tenant_id: tenantId
+    });
+    return res.status(201).json({ success: true, notification: newNotification });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }

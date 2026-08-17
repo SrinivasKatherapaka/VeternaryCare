@@ -1,61 +1,91 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/authMiddleware.js';
-import { mockDb } from '../services/mockDb.js';
+import { db } from '../services/dbService.js';
 import { generateAuditPackPDFStream } from '../services/pdfService.js';
 import crypto from 'crypto';
 
-export function getAuditDecisions(req: AuthRequest, res: Response) {
-  const { actor_id, action } = req.query;
+export async function getAuditDecisions(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const { actor_id, action } = req.query;
 
-  let list = mockDb.auditLogs.map(l => {
-    const control = mockDb.controls.find(c => c.id === l.control_id);
-    const evidence = mockDb.evidence.find(e => e.id === l.evidence_id);
-    return {
-      ...l,
-      control_code: control ? control.control_code : 'N/A',
-      control_title: control ? control.title : 'N/A',
-      file_name: evidence ? evidence.file_name : 'N/A'
+    const auditLogs = await db.getAuditDecisions(tenantId, {
+      actorId: actor_id as string,
+      action: action as string
+    });
+
+    return res.json({ success: true, audit_logs: auditLogs });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+export async function generateAuditPackJSON(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const tenant = await db.getTenant(tenantId);
+    const controls = await db.getControls(tenantId);
+    const auditLogs = await db.getAuditDecisions(tenantId);
+    const evidence = await db.getEvidenceList(tenantId);
+    const risks = await db.getRisks(tenantId);
+    const encounters = await db.getClinicalEncounters(tenantId);
+
+    const packData = {
+      tenant,
+      manifest: {
+        total_controls: controls.length,
+        compliant_controls: controls.filter(c => c.status === 'COMPLIANT').length,
+        total_evidence_artifacts: evidence.length,
+        total_audit_decisions: auditLogs.length,
+        active_risks: risks.filter(r => !r.is_resolved).length,
+        total_clinical_encounters: encounters.length
+      },
+      controls,
+      evidence,
+      auditLogs,
+      risks,
+      clinicalEncounters: encounters,
+      exported_at: new Date().toISOString(),
+      exporter: {
+        id: req.user!.id,
+        name: req.user!.full_name,
+        role: req.user!.role,
+        license_number: req.user!.license_number
+      }
     };
-  });
 
-  if (actor_id) list = list.filter(l => l.actor_id === actor_id);
-  if (action) list = list.filter(l => l.action === action);
+    const sha256Seal = crypto.createHash('sha256').update(JSON.stringify(packData)).digest('hex');
 
-  return res.json({ success: true, audit_logs: list });
+    return res.json({
+      success: true,
+      sha256_seal: sha256Seal,
+      audit_pack: packData
+    });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }
 
-export function generateAuditPackJSON(req: AuthRequest, res: Response) {
-  const tenant = mockDb.tenants[0];
-  const controls = mockDb.controls;
-  const auditLogs = mockDb.auditLogs;
-  const evidence = mockDb.evidence;
+export async function downloadAuditPackPDF(req: AuthRequest, res: Response) {
+  try {
+    const tenantId = req.user!.tenant_id;
+    const tenant = await db.getTenant(tenantId);
+    const controls = await db.getControls(tenantId);
+    const auditLogs = await db.getAuditDecisions(tenantId);
+    const evidence = await db.getEvidenceList(tenantId);
 
-  const packData = {
-    tenant,
-    controls,
-    evidence,
-    auditLogs,
-    exported_at: new Date().toISOString(),
-    exporter: {
-      id: req.user!.id,
-      name: req.user!.full_name,
-      role: req.user!.role
-    }
-  };
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=Veterinary_Compliance_Audit_Pack_${Date.now()}.pdf`);
 
-  const sha256Seal = crypto.createHash('sha256').update(JSON.stringify(packData)).digest('hex');
-
-  return res.json({
-    success: true,
-    sha256_seal: sha256Seal,
-    audit_pack: packData
-  });
-}
-
-export function downloadAuditPackPDF(req: AuthRequest, res: Response) {
-  res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', `attachment; filename=Veterinary_Compliance_Audit_Pack_${Date.now()}.pdf`);
-
-  const pdfStream = generateAuditPackPDFStream();
-  pdfStream.pipe(res);
+    const pdfStream = generateAuditPackPDFStream({
+      tenant,
+      controls,
+      auditLogs,
+      evidence,
+      user: req.user!
+    });
+    pdfStream.pipe(res);
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 }
