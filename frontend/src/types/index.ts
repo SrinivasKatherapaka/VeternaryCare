@@ -73,6 +73,7 @@ export interface Animal {
   tenant_id: string;
   owner_id: string;
   owner_name?: string;
+  owner_phone?: string;
   name: string;
   species: string;
   breed?: string;

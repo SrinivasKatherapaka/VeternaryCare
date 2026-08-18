@@ -2,7 +2,7 @@
 
 > **Target Audience:** Office Colleagues, Veterinary Practice Managers, Compliance Officers, Executive Reviewers, and Engineering Teams.  
 > **Application Name:** PawCare-Compliance AI (Veterinary Care Compliance Evidence & Risk Control Workspace)  
-> **Brand Symbol:** Puppy Paws Foot Trail (`PuppyPawLogo`)
+> **Brand Symbol:** Endearing Puppy Paw with Embedded Care Heart & Protective Orbit Halo (`PuppyPawLogo`)
 
 ---
 
