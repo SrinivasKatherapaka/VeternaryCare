@@ -1,41 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
   <defs>
-    <linearGradient id="pawGradFav" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="50%" stop-color="#0284c7"/>
-      <stop offset="100%" stop-color="#6366f1"/>
+    <linearGradient id="goldenFavGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
-    <linearGradient id="heartGradFav" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="goldenFavHeart" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
     </linearGradient>
   </defs>
   <!-- 4 Toe Beans -->
   <g transform="translate(19, 39) rotate(-26)">
-    <ellipse cx="0" cy="0" rx="7" ry="9.5" fill="url(#pawGradFav)" />
+    <ellipse cx="0" cy="0" rx="7" ry="9.5" fill="url(#goldenFavGrad)" />
   </g>
   <g transform="translate(37, 24) rotate(-9)">
-    <ellipse cx="0" cy="0" rx="8.5" ry="11.5" fill="url(#pawGradFav)" />
+    <ellipse cx="0" cy="0" rx="8.5" ry="11.5" fill="url(#goldenFavGrad)" />
   </g>
   <g transform="translate(63, 24) rotate(9)">
-    <ellipse cx="0" cy="0" rx="8.5" ry="11.5" fill="url(#pawGradFav)" />
+    <ellipse cx="0" cy="0" rx="8.5" ry="11.5" fill="url(#goldenFavGrad)" />
   </g>
   <g transform="translate(81, 39) rotate(26)">
-    <ellipse cx="0" cy="0" rx="7" ry="9.5" fill="url(#pawGradFav)" />
+    <ellipse cx="0" cy="0" rx="7" ry="9.5" fill="url(#goldenFavGrad)" />
   </g>
   <!-- Palm Pad -->
   <path
     d="M 50 47 C 42 41, 23 46, 22 62 C 21 74, 34 83, 50 84 C 66 83, 79 74, 78 62 C 77 46, 58 41, 50 47 Z"
-    fill="url(#pawGradFav)"
+    fill="url(#goldenFavGrad)"
   />
   <!-- Care Heart -->
   <path
     d="M 50 57 C 46.5 52, 38 53, 38 61 C 38 67, 46.5 73, 50 76 C 53.5 73, 62 67, 62 61 C 62 53, 53.5 52, 50 57 Z"
-    fill="url(#heartGradFav)"
+    fill="url(#goldenFavHeart)"
   />
   <!-- Cross in Heart -->
-  <rect x="48.5" y="60.5" width="3" height="9" rx="1.5" fill="#0284c7"/>
-  <rect x="45.5" y="63.5" width="9" height="3" rx="1.5" fill="#0284c7"/>
+  <rect x="48.5" y="60.5" width="3" height="9" rx="1.5" fill="#b45309"/>
+  <rect x="45.5" y="63.5" width="9" height="3" rx="1.5" fill="#b45309"/>
   <!-- Sparkle Star -->
-  <path d="M 86 7 Q 86 14 93 14 Q 86 14 86 21 Q 86 14 79 14 Q 86 14 86 7 Z" fill="#facc15"/>
+  <path d="M 86 7 Q 86 14 93 14 Q 86 14 86 21 Q 86 14 79 14 Q 86 14 86 7 Z" fill="#fde047"/>
 </svg>

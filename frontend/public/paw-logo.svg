@@ -2,40 +2,40 @@
   <defs>
     <!-- Background Ambient Glow -->
     <radialGradient id="pawAura" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
-      <stop offset="60%" stop-color="#6366f1" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#d97706" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#0c0a09" stop-opacity="0"/>
     </radialGradient>
 
-    <!-- Vibrant Endearing Paw Gradient -->
-    <linearGradient id="pawGradientMain" x1="15%" y1="10%" x2="85%" y2="90%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="35%" stop-color="#06b6d4"/>
-      <stop offset="70%" stop-color="#3b82f6"/>
-      <stop offset="100%" stop-color="#6366f1"/>
+    <!-- Golden Retriever Paw Gradient -->
+    <linearGradient id="goldenPawGradientMain" x1="15%" y1="10%" x2="85%" y2="90%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="30%" stop-color="#fbbf24"/>
+      <stop offset="65%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
 
-    <!-- Lovable Heart Highlight Gradient -->
-    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
-      <stop offset="50%" stop-color="#a5f3fc" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#c4b5fd" stop-opacity="0.3"/>
+    <!-- Warm Cream Heart Highlight -->
+    <linearGradient id="goldenHeartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="50%" stop-color="#fef3c7" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#fde68a" stop-opacity="0.75"/>
     </linearGradient>
 
-    <!-- Gloss Highlight Gradient -->
-    <linearGradient id="gloss" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.75"/>
+    <!-- Gloss Highlight -->
+    <linearGradient id="goldenGloss" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
 
-    <!-- Magic Star Gradient -->
-    <linearGradient id="starGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="50%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#818cf8"/>
+    <!-- Magic Star Golden Gradient -->
+    <linearGradient id="goldenStarGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#fde047"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
     </linearGradient>
 
-    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="goldenSoftGlow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="3" result="blur"/>
       <feComposite in="SourceGraphic" in2="blur" operator="over"/>
     </filter>
@@ -45,73 +45,67 @@
   <circle cx="50" cy="52" r="46" fill="url(#pawAura)" />
 
   <!-- Outer Protective Halo Ring -->
-  <circle cx="50" cy="50" r="45" stroke="url(#pawGradientMain)" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.4" />
+  <circle cx="50" cy="50" r="45" stroke="url(#goldenPawGradientMain)" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.45" />
 
-  <!-- 4 Plump Endearing Toe Beans -->
+  <!-- 4 Plump Golden Toe Beans -->
   <!-- Leftmost Pinky Toe -->
   <g transform="translate(19, 39) rotate(-26)">
-    <ellipse cx="0" cy="0" rx="6.8" ry="9" fill="url(#pawGradientMain)" filter="url(#softGlow)" />
-    <!-- Gloss reflection -->
-    <ellipse cx="-1.5" cy="-3.5" rx="3" ry="4" fill="url(#gloss)" />
+    <ellipse cx="0" cy="0" rx="6.8" ry="9" fill="url(#goldenPawGradientMain)" filter="url(#goldenSoftGlow)" />
+    <ellipse cx="-1.5" cy="-3.5" rx="3" ry="4" fill="url(#goldenGloss)" />
   </g>
 
   <!-- Left-Center Toe -->
   <g transform="translate(37, 24) rotate(-9)">
-    <ellipse cx="0" cy="0" rx="8" ry="11.2" fill="url(#pawGradientMain)" filter="url(#softGlow)" />
-    <!-- Gloss reflection -->
-    <ellipse cx="-2" cy="-4.5" rx="3.5" ry="5.5" fill="url(#gloss)" />
+    <ellipse cx="0" cy="0" rx="8" ry="11.2" fill="url(#goldenPawGradientMain)" filter="url(#goldenSoftGlow)" />
+    <ellipse cx="-2" cy="-4.5" rx="3.5" ry="5.5" fill="url(#goldenGloss)" />
   </g>
 
   <!-- Right-Center Toe -->
   <g transform="translate(63, 24) rotate(9)">
-    <ellipse cx="0" cy="0" rx="8" ry="11.2" fill="url(#pawGradientMain)" filter="url(#softGlow)" />
-    <!-- Gloss reflection -->
-    <ellipse cx="-1.5" cy="-4.5" rx="3.5" ry="5.5" fill="url(#gloss)" />
+    <ellipse cx="0" cy="0" rx="8" ry="11.2" fill="url(#goldenPawGradientMain)" filter="url(#goldenSoftGlow)" />
+    <ellipse cx="-1.5" cy="-4.5" rx="3.5" ry="5.5" fill="url(#goldenGloss)" />
   </g>
 
   <!-- Rightmost Toe -->
   <g transform="translate(81, 39) rotate(26)">
-    <ellipse cx="0" cy="0" rx="6.8" ry="9" fill="url(#pawGradientMain)" filter="url(#softGlow)" />
-    <!-- Gloss reflection -->
-    <ellipse cx="-1.5" cy="-3.5" rx="3" ry="4" fill="url(#gloss)" />
+    <ellipse cx="0" cy="0" rx="6.8" ry="9" fill="url(#goldenPawGradientMain)" filter="url(#goldenSoftGlow)" />
+    <ellipse cx="-1.5" cy="-3.5" rx="3" ry="4" fill="url(#goldenGloss)" />
   </g>
 
   <!-- Main Heart-Plump Palm Pad -->
-  <g filter="url(#softGlow)">
+  <g filter="url(#goldenSoftGlow)">
     <path
       d="M 50 47 C 42 41, 23 46, 22 62 C 21 74, 34 83, 50 84 C 66 83, 79 74, 78 62 C 77 46, 58 41, 50 47 Z"
-      fill="url(#pawGradientMain)"
+      fill="url(#goldenPawGradientMain)"
     />
   </g>
 
   <!-- Palm Gloss Highlight -->
   <path
     d="M 50 50 C 44 45, 30 49, 29 60 C 28 64, 32 68, 38 66 C 45 64, 48 56, 50 53 C 52 56, 55 64, 62 66 C 68 68, 72 64, 71 60 C 70 49, 56 45, 50 50 Z"
-    fill="url(#gloss)"
+    fill="url(#goldenGloss)"
     opacity="0.6"
   />
 
-  <!-- Embedded Lovable Care Heart -->
+  <!-- Embedded Warm Cream Care Heart -->
   <path
     d="M 50 57 C 46.5 52, 38 53, 38 61 C 38 67, 46.5 73, 50 76 C 53.5 73, 62 67, 62 61 C 62 53, 53.5 52, 50 57 Z"
-    fill="url(#heartGradient)"
-    opacity="0.9"
+    fill="url(#goldenHeartGradient)"
+    opacity="0.95"
   />
 
-  <!-- Subtle Medical Cross in Heart -->
-  <g opacity="0.75">
-    <rect x="48.5" y="60.5" width="3" height="9" rx="1.5" fill="#0369a1"/>
-    <rect x="45.5" y="63.5" width="9" height="3" rx="1.5" fill="#0369a1"/>
+  <!-- Warm Amber Cross in Heart -->
+  <g opacity="0.85">
+    <rect x="48.5" y="60.5" width="3" height="9" rx="1.5" fill="#b45309"/>
+    <rect x="45.5" y="63.5" width="9" height="3" rx="1.5" fill="#b45309"/>
   </g>
 
-  <!-- Magic Star Sparkles -->
-  <!-- Top Right Big Sparkle -->
+  <!-- Magic Golden Star Sparkles -->
   <g transform="translate(86, 14)">
-    <path d="M 0 -7 Q 0 0 7 0 Q 0 0 0 7 Q 0 0 -7 0 Q 0 0 0 -7 Z" fill="url(#starGlow)" />
+    <path d="M 0 -7 Q 0 0 7 0 Q 0 0 0 7 Q 0 0 -7 0 Q 0 0 0 -7 Z" fill="url(#goldenStarGlow)" />
     <circle cx="0" cy="0" r="1.5" fill="#ffffff" />
   </g>
-  <!-- Bottom Left Mini Sparkle -->
   <g transform="translate(12, 68) scale(0.65)">
-    <path d="M 0 -6 Q 0 0 6 0 Q 0 0 0 6 Q 0 0 -6 0 Q 0 0 0 -6 Z" fill="url(#starGlow)" opacity="0.85" />
+    <path d="M 0 -6 Q 0 0 6 0 Q 0 0 0 6 Q 0 0 -6 0 Q 0 0 0 -6 Z" fill="url(#goldenStarGlow)" opacity="0.85" />
   </g>
 </svg>

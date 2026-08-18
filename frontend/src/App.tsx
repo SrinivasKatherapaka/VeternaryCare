@@ -21,7 +21,7 @@ import { AuditLogsSettingsPage } from './pages/AuditLogsSettingsPage';
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-stone-950 text-stone-100">
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />
